@@ -1,4 +1,4 @@
-# October Json Plugin Manager
+# October CMS Json Plugin Manager
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![OctoberCMS](https://img.shields.io/badge/OctoberCMS-3.x-orange.svg)](https://octobercms.com/)
