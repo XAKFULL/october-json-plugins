@@ -1,0 +1,21 @@
+{
+    "name": "xakfull/importpluginfromjson-plugin",
+    "type": "october-plugin",
+    "description": "Json plugin manager for October CMS",
+    "homepage": "https://github.com/XAKFULL/october-json-plugins",
+    "keywords": ["october", "octobercms", "json"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Boris Zaharyan",
+            "email": "boris.zaharyan@gmail.com",
+            "role": "Creator"
+        }
+    ],
+
+    "require": {
+        "php": "^8.0.2",
+        "xakfull/tools": "~1"
+    },
+    "minimum-stability": "dev"
+}

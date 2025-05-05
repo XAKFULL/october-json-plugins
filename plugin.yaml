@@ -1,0 +1,7 @@
+name: Xakfull.ImportPluginFromJson
+description: Плагин для импорта плагинов из JSON в October CMS.
+author: Xakfull
+icon: icon-arrow-down
+homepage: https://example.com
+version: 1.0.0
+order: 500
