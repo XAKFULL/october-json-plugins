@@ -8,7 +8,7 @@ class Plugin extends PluginBase
     {
         return [
             'name' => 'JSON Plugin Manager',
-            'description' => 'Импорт и экспорт плагинов через JSON',
+            'description' => 'Управление плагинами через JSON',
             'author' => 'XAKFULL',
             'icon' => 'icon-archive'
         ];
@@ -21,13 +21,20 @@ class Plugin extends PluginBase
                 'label' => 'JSON Plugin Manager',
                 'url' => \Backend::url('xakfull/jsonpluginmanager/importcontroller'),
                 'icon' => 'icon-archive',
-                'permissions' => ['xakfull.importpluginfromjson.*'],
-                'order' => 500
-            ],
+                'permissions' => ['xakfull.jsonpluginmanager.*'],
+                'sideMenu' => [
+                    'import' => [
+                        'label' => 'Импорт',
+                        'icon' => 'icon-download',
+                        'url' => \Backend::url('xakfull/jsonpluginmanager/importcontroller')
+                    ],
+                    'export' => [
+                        'label' => 'Экспорт',
+                        'icon' => 'icon-upload',
+                        'url' => \Backend::url('xakfull/jsonpluginmanager/exportcontroller')
+                    ]
+                ]
+            ]
         ];
-    }
-
-    public function register()
-    {
     }
 }

@@ -1,0 +1,10 @@
+<form data-request="onExport" data-request-download>
+
+    <select name="plugin" class="form-control custom-select select2-hidden-accessible"  placeholder="Вставьте JSON данные">
+        <option value="">Не выбрано</option>
+        <?php foreach($this->plugins as $pluginPath => $pluginName){ ?>
+        <option value="<?= $pluginPath ?>"><?= $pluginName ?></option>
+        <?php }; ?>
+    </select>
+    <button type="submit" class="btn btn-primary mt-2">Экспортировать</button>
+</form>

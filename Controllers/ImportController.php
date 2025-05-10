@@ -3,15 +3,13 @@
 use Backend\Classes\Controller;
 use BackendMenu;
 use Illuminate\Http\Request;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 
 class ImportController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
-        BackendMenu::setContext('XAKFULL.JsonPluginManager', 'jsonpluginmanager');
+        BackendMenu::setContext('XAKFULL.JsonPluginManager', 'jsonpluginmanager', 'import');
     }
 
     public function index()
@@ -31,11 +29,9 @@ class ImportController extends Controller
             return;
         }
 
-        foreach ($data as $path => $code) {
+        foreach ($data as $item) {
 
-            $path = str_replace('plugins/', '', $path);
-
-            $fullPath = plugins_path($path);
+            $fullPath = plugins_path($item['path']);
 
             // Создание директорий, если они не существуют
             $dir = dirname($fullPath);
@@ -43,12 +39,16 @@ class ImportController extends Controller
                 mkdir($dir, 0777, true);
             }
 
-            // Запись кода в файл
-            file_put_contents($fullPath, $code);
+            if (isset($item['content']) and $item['type'] == 'file') {
+                // Загрузите файл из base64 decode
+                $content = base64_decode($item['content'], true);
+                file_put_contents($fullPath, $content);
+            }
         }
 
         // Возвращаем успешный ответ
         \Flash::success('Импорт завершен!');
         return;
     }
+
 }

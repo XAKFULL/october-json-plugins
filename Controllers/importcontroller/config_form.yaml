@@ -1,5 +1,0 @@
-fields:
-    json:
-        label: JSON строка
-        type: textarea
-        span: full
