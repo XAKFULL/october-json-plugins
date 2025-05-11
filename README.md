@@ -14,6 +14,10 @@
 - Валидация JSON при импорте
 
 ## 📦 Установка
-1. Установите плагин:
+1. Установите плагин через Artisan:
 ```bash
 php artisan plugin:install Xakfull.JsonPluginManager
+
+1. Или установите плагин через Composer:
+```bash
+composer require xakfull/jsonpluginmanager
