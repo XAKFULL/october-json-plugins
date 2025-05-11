@@ -1,94 +1,42 @@
 <?php namespace XAKFULL\JsonPluginManager\Controllers;
 
 use Backend\Classes\Controller;
+use XAKFULL\JsonPluginManager\Classes\PluginManager;
 
 class ExportController extends Controller
 {
-
-    public $plugins;
+    protected $pluginManager;
 
     public function __construct()
     {
         parent::__construct();
         \BackendMenu::setContext('XAKFULL.JsonPluginManager', 'jsonpluginmanager', 'export');
+
+        $this->pluginManager = new PluginManager();
+        $this->pluginManager->loadPlugins();
     }
 
-    public function index(){
-        $this->loadPlugins();
-    }
+    public function index(){}
 
-    protected function loadPlugins()
+    protected function listPlugins()
     {
-        $this->plugins = $this->scanPluginsDirectory();
+        return $this->pluginManager->getPlugins();
     }
 
     public function onExport()
     {
-        $pluginPath = input('plugin');
-
-        $json = '';
-
+        $pluginPath = input('plugin', '');
 
         if ($pluginPath != ''){
 
-            $dir = plugins_path($pluginPath);
-
-            $pluginName = str_replace('/', '_', $pluginPath);
-
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-
-            foreach ($iterator as $item) {
-
-                $path = $item->getPathname();
-                $relativePath = str_replace(plugins_path().'/', '', $path);
-
-                $entry = [
-                    'name' => $item->getFilename(),
-                    'path' => $relativePath,
-                    'type' => $item->isDir() ? 'directory' : 'file'
-                ];
-                if (!$item->isDir()) {
-                    $content = file_get_contents($item->getPathname());
-                    $entry['content'] = base64_encode($content);
-                    $entry['size'] = $item->getSize();
-                    $data[] = $entry;
-                }
-            }
+            $data = $this->pluginManager->export($pluginPath);
+            $pluginInfo = $this->pluginManager->getPluginInfo($pluginPath);
 
             $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            return response()->streamDownload(function () use ($json) {echo $json;}, $pluginName.'.json');
+            return response()->streamDownload(function () use ($json) {echo $json;}, $pluginInfo['name'].'.json');
         }
 
-        return $json;
-    }
-
-    private function scanPluginsDirectory()
-    {
-        $plugins = [];
-        $iterator = new \DirectoryIterator(plugins_path());
-
-        foreach ($iterator as $authorsFolders) {
-
-            if ($authorsFolders->isDir() && !$authorsFolders->isDot()) {
-
-                $author = $authorsFolders->getFilename();
-
-                foreach (new \DirectoryIterator($authorsFolders->getRealPath()) as $pluginFolder) {
-
-                    if ($pluginFolder->isDir() && !$pluginFolder->isDot()) {
-
-                        $plugin = $pluginFolder->getFilename();
-
-                        $plugins[$author.'/'.$plugin] = $author.'.'.$plugin;
-                    }
-                }
-
-            }
-        }
-        return $plugins;
+        return response()->abort('500', 'Plugin not found');
     }
 }

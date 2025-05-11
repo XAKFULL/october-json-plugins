@@ -3,6 +3,7 @@
 use Backend\Classes\Controller;
 use BackendMenu;
 use Illuminate\Http\Request;
+use XAKFULL\JsonPluginManager\Classes\PluginManager;
 
 class ImportController extends Controller
 {
@@ -21,34 +22,16 @@ class ImportController extends Controller
     {
         $json = $request->input('json');
 
-        $data = json_decode($json, true);
+        $manager = new PluginManager();
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            // Если JSON некорректен, возвращаем ошибку
-            \Flash::error('Некорректный JSON');
-            return;
-        }
-
-        foreach ($data as $item) {
-
-            $fullPath = plugins_path($item['path']);
-
-            // Создание директорий, если они не существуют
-            $dir = dirname($fullPath);
-            if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
-            }
-
-            if (isset($item['content']) and $item['type'] == 'file') {
-                // Загрузите файл из base64 decode
-                $content = base64_decode($item['content'], true);
-                file_put_contents($fullPath, $content);
-            }
+        try {
+            $manager->import($json);
+        } catch (\Exception $e) {
+            return response()->abort(500, $e->getMessage());
         }
 
         // Возвращаем успешный ответ
         \Flash::success('Импорт завершен!');
-        return;
     }
 
 }
