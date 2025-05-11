@@ -2,14 +2,18 @@
     "name": "xakfull/jsonpluginmanager",
     "type": "october-plugin",
     "description": "JSON Plugin Manager for OctoberCMS",
-    "require": {
-        "php": ">=7.4",
-        "composer/installers": "~1.0"
-    },
+    "keywords": ["october", "octobercms", "json", "plugin"],
+    "license": "MIT",
     "authors": [
         {
             "name": "XAKFULL",
-            "email": "boris.zaharyan@mail.ru"
+            "email": "boris.zaharyan@mail.ru",
+            "role": "Developer"
         }
-    ]
+    ],
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0"
+    },
+    "minimum-stability": "dev"
 }
