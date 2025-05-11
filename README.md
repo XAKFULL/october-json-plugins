@@ -2,10 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![OctoberCMS](https://img.shields.io/badge/OctoberCMS-3.x-orange.svg)](https://octobercms.com/)
+[![OctoberCMS](https://img.shields.io/badge/OctoberCMS-1.x-orange.svg)](https://octobercms.com/)
 
 Универсальный инструмент для управления плагинами October CMS через JSON. Импортируйте, экспортируйте и создавайте резервные копии плагинов без взаимодействия с базой данных.
-
-![Demo](https://via.placeholder.com/800x400.png?text=Импорт+и+Экспорт+плагинов+в+JSON)
 
 ## 🌟 Возможности
 - **Импорт плагинов** из JSON-строки
@@ -15,6 +14,6 @@
 - Валидация JSON при импорте
 
 ## 📦 Установка
-1. Склонируйте репозиторий:
+1. Установите плагин:
 ```bash
-git clone https://github.com/XAKFULL/october-json-plugin-manager.git plugins/xakfull/jsonpluginmanager
+php artisan plugin:install Xakfull.JsonPluginManager
